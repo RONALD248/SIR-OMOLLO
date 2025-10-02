@@ -1,0 +1,16 @@
+inclusive-content-hub/
+├── 📄 index.html
+├── 📄 manifest.json
+├── 📄 sw.js
+├── 🎨 css/
+│   ├── style.css
+│   └── themes.css
+├── ⚡ js/
+│   ├── app.js
+│   ├── speech.js
+│   ├── translation.js
+│   ├── simplification.js
+│   ├── file-processing.js
+│   ├── voice-recognition.js
+│   └── image-analysis.js
+└── 📄 README.md

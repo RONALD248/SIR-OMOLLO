@@ -1,0 +1,90 @@
+/* ===== DARK THEME ===== */
+[data-theme="dark"] {
+    --primary-maroon: #C04040;
+    --maroon-dark: #A52A2A;
+    --maroon-light: #D87373;
+    --maroon-lighter: #E8A0A0;
+    --accent-gold: #E6C35C;
+    --accent-gold-light: #F4D880;
+    --accent-teal: #32A532;
+    --accent-teal-light: #4CD34C;
+    
+    --cream-bg: #1A1A1A;
+    --cream-card: #2D2D2D;
+    --cream-surface: #252525;
+    --text-dark: #FFFFFF;
+    --text-medium: #E0E0E0;
+    --text-light: #B0B0B0;
+    --text-lighter: #808080;
+    
+    --success-green: #4CD34C;
+    --warning-orange: #FFA726;
+    --error-red: #EF5350;
+    --info-blue: #42A5F5;
+    
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== HIGH CONTRAST THEME ===== */
+[data-theme="high-contrast"] {
+    --primary-maroon: #000000;
+    --maroon-dark: #000000;
+    --maroon-light: #333333;
+    --accent-gold: #FFFF00;
+    --accent-teal: #00FF00;
+    
+    --cream-bg: #FFFFFF;
+    --cream-card: #FFFFFF;
+    --cream-surface: #F0F0F0;
+    --text-dark: #000000;
+    --text-medium: #000000;
+    --text-light: #333333;
+    --text-lighter: #666666;
+    
+    --success-green: #006600;
+    --warning-orange: #666600;
+    --error-red: #660000;
+    --info-blue: #000066;
+    
+    --shadow-sm: 0 0 0 2px #000000;
+    --shadow-md: 0 0 0 3px #000000;
+    --shadow-lg: 0 0 0 4px #000000;
+    --shadow-xl: 0 0 0 5px #000000;
+}
+
+[data-theme="high-contrast"] .tool-card,
+[data-theme="high-contrast"] .input-section,
+[data-theme="high-contrast"] .output-section,
+[data-theme="high-contrast"] .impact-card {
+    border: 3px solid #000000;
+}
+
+[data-theme="high-contrast"] .btn-primary {
+    background: #000000;
+    color: #FFFFFF;
+    border: 2px solid #000000;
+}
+
+[data-theme="high-contrast"] .btn-secondary {
+    background: #FFFFFF;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+/* Smooth theme transitions */
+body,
+.main-container,
+.tool-card,
+.input-section,
+.output-section,
+.impact-card,
+#inputText,
+select,
+button,
+.upload-btn,
+.stat-card {
+    transition: all var(--transition-normal);
+}

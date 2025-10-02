@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAccess Hub | SDG 4 Quality Education</title>
+    <meta name="description" content="Transform educational content into accessible formats for all learners - Supporting UN Sustainable Development Goal 4">
+    
+    <!-- PWA Meta -->
+    <meta name="theme-color" content="#8B0000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Styles & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    <!-- Add this to fix potential initialization issues -->
+<script>
+    // Force hide loading screen after timeout
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+            console.log('Forcing loading screen to close...');
+            loadingScreen.classList.add('hidden');
+        }
+    }, 3000);
+
+    // Simple app initialization fallback
+    window.simpleInit = function() {
+        console.log('Simple initialization running...');
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+        }
+        // Enable basic functionality
+        const inputText = document.getElementById('inputText');
+        if (inputText) {
+            inputText.value = "Education is the most powerful weapon which you can use to change the world. Quality education should be accessible to everyone.";
+        }
+    };
+</script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <!-- Loading Screen - SIMPLIFIED -->
+<div id="loadingScreen" class="loading-screen hidden">
+    <div class="loader">
+        <div class="loader-spinner"></div>
+        <p>Loading Inclusive Content Hub...</p>
+    </div>
+</div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <div class="logo-icon">🎓</div>
+                        <div class="logo-text">
+                            <h1>EduAccess Hub</h1>
+                            <p>UN SDG 4 - Quality Education</p>
+                        </div>
+                    </div>
+                    <div class="sdg-badge">
+                        <span>🌍 Sustainable Development Goal 4</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="theme-selector">
+                        <button class="theme-btn active" data-theme="light" title="Light Theme">
+                            <i class="fas fa-sun"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="dark" title="Dark Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="high-contrast" title="High Contrast">
+                            <i class="fas fa-circle"></i>
+                        </button>
+                    </div>
+                    <button id="installBtn" class="install-btn hidden">
+                        <i class="fas fa-download"></i> Install App
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2>Transform Education for <span class="highlight">Every Learner</span></h2>
+                    <p>Break down barriers with AI-powered accessibility tools that make educational content available to all students, regardless of abilities or language.</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="number">10+</span>
+                            <span class="label">Accessibility Tools</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">15+</span>
+                            <span class="label">Languages</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">100%</span>
+                            <span class="label">Free Access</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-volume-up"></i>
+                        <span>Text-to-Speech</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-language"></i>
+                        <span>Translation</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-pen-fancy"></i>
+                        <span>Simplification</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Stats -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Visual Impairment Support</h3>
+                        <p>Text-to-speech and audio descriptions</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Multi-language</h3>
+                        <p>15+ languages supported</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Learning Diversity</h3>
+                        <p>Adapts to different learning styles</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-universal-access"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Full Accessibility</h3>
+                        <p>WCAG 2.1 compliant</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Tools Section -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-edit"></i> Your Educational Content</h2>
+                    <div class="section-actions">
+                        <button id="clearInput" class="btn-secondary">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                        <button id="sampleText" class="btn-secondary">
+                            <i class="fas fa-file-alt"></i> Load Sample
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="input-container">
+                    <textarea 
+                        id="inputText" 
+                        placeholder="Paste your textbook content, lecture notes, or educational materials here... 
+Example: 'Education is the most powerful weapon which you can use to change the world. Quality education should be accessible to everyone regardless of their abilities, language, or learning preferences.'"
+                        rows="8"
+                    ></textarea>
+                    
+                    <div class="input-footer">
+                        <div class="text-stats">
+                            <span id="charCount">0</span> characters • 
+                            <span id="wordCount">0</span> words • 
+                            <span id="sentenceCount">0</span> sentences
+                        </div>
+                        <div class="input-actions">
+                            <button id="pasteText" class="btn-small">
+                                <i class="fas fa-paste"></i> Paste from Clipboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload Section -->
+                <div class="upload-section">
+                    <h3><i class="fas fa-cloud-upload-alt"></i> Upload Content</h3>
+                    <div class="upload-options">
+                        <div class="upload-option">
+                            <input type="file" id="fileUpload" accept=".pdf,.txt,.doc,.docx" hidden>
+                            <label for="fileUpload" class="upload-btn">
+                                <div class="upload-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="upload-info">
+                                    <strong>Documents</strong>
+                                    <span>PDF, TXT, DOC</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="upload-option">
+                            <input type="file" id="imageUpload" accept="image/*" hidden>
+                            <label for="imageUpload" class="upload-btn">
+                                <div class="upload-icon">
+                                    <i class="fas fa-image"></i>
+                                </div>
+                                <div class="upload-info">
+                                    <strong>Images</strong>
+                                    <span>JPG, PNG, Screenshots</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="upload-option">
+                            <button id="voiceRecordBtn" class="upload-btn voice-btn">
+                                <div class="upload-icon">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <div class="upload-info">
+                                    <strong>Record Audio</strong>
+                                    <span>Speech to Text</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Voice Recording Interface -->
+                    <div id="voiceRecording" class="voice-recording hidden">
+                        <div class="recording-header">
+                            <h4><i class="fas fa-microphone-alt"></i> Voice Recording</h4>
+                            <div class="recording-status" id="recordingStatus">Ready to record</div>
+                        </div>
+                        <div class="recording-controls">
+                            <div class="recording-visualizer">
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                            </div>
+                            <div class="recording-timer" id="recordingTimer">00:00</div>
+                            <div class="recording-actions">
+                                <button id="startRecording" class="btn-primary record-btn">
+                                    <i class="fas fa-record-vinyl"></i> Start Recording
+                                </button>
+                                <button id="stopRecording" class="btn-secondary" disabled>
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                                <button id="cancelRecording" class="btn-secondary">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+                <h3><i class="fas fa-bolt"></i> Quick Transform</h3>
+                <div class="quick-actions-grid">
+                    <button class="quick-action-btn" data-action="speech">
+                        <div class="action-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="action-text">
+                            <strong>Listen</strong>
+                            <span>Text to Speech</span>
+                        </div>
+                    </button>
+                    
+                    <button class="quick-action-btn" data-action="translate">
+                        <div class="action-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="action-text">
+                            <strong>Translate</strong>
+                            <span>Multiple Languages</span>
+                        </div>
+                    </button>
+                    
+                    <button class="quick-action-btn" data-action="simplify">
+                        <div class="action-icon">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <div class="action-text">
+                            <strong>Simplify</strong>
+                            <span>Easy Reading</span>
+                        </div>
+                    </button>
+                    
+                    <button class="quick-action-btn" data-action="analyze">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="action-text">
+                            <strong>Analyze</strong>
+                            <span>Readability Score</span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Tools Grid -->
+            <section class="tools-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> Accessibility Tools</h2>
+                    <div class="tool-indicators">
+                        <div class="tool-status online">
+                            <i class="fas fa-circle"></i> All Systems Online
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- Text-to-Speech Card -->
+                    <div class="tool-card" data-tool="speech">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <div class="tool-info">
+                                <h3>Text-to-Speech</h3>
+                                <div class="tool-badge">
+                                    <i class="fas fa-eye-slash"></i> Visual Impairment Support
+                                </div>
+                            </div>
+                        </div>
+                        <p class="tool-description">Convert written text to natural-sounding audio for listening instead of reading</p>
+                        
+                        <div class="tool-controls">
+                            <div class="control-group">
+                                <label><i class="fas fa-user-voice"></i> Voice Selection</label>
+                                <select id="voiceSelect" class="form-select">
+                                    <option value="default">Default Voice</option>
+                                </select>
+                            </div>
+                            
+                            <div class="playback-controls">
+                                <button id="playBtn" class="btn-primary tool-btn">
+                                    <i class="fas fa-play"></i> Play Audio
+                                </button>
+                                <button id="pauseBtn" class="btn-secondary tool-btn" disabled>
+                                    <i class="fas fa-pause"></i> Pause
+                                </button>
+                                <button id="stopBtn" class="btn-secondary tool-btn" disabled>
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label><i class="fas fa-tachometer-alt"></i> Playback Speed</label>
+                                <div class="speed-control">
+                                    <input type="range" id="speechSpeed" min="0.5" max="2" step="0.1" value="1" class="speed-slider">
+                                    <span id="speedValue" class="speed-value">1.0x</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Translation Card -->
+                    <div class="tool-card" data-tool="translation">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <div class="tool-info">
+                                <h3>Translation</h3>
+                                <div class="tool-badge">
+                                    <i class="fas fa-globe"></i> 15+ Languages
+                                </div>
+                            </div>
+                        </div>
+                        <p class="tool-description">Translate educational content to different languages while preserving meaning</p>
+                        
+                        <div class="tool-controls">
+                            <div class="control-group">
+                                <label><i class="fas fa-arrow-right"></i> Source Language</label>
+                                <select id="sourceLang" class="form-select" disabled>
+                                    <option value="auto">Auto-detect</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label><i class="fas fa-arrow-left"></i> Target Language</label>
+                                <select id="targetLang" class="form-select">
+                                    <option value="es">🇪🇸 Spanish</option>
+                                    <option value="fr">🇫🇷 French</option>
+                                    <option value="de">🇩🇪 German</option>
+                                    <option value="it">🇮🇹 Italian</option>
+                                    <option value="pt">🇵🇹 Portuguese</option>
+                                    <option value="ru">🇷🇺 Russian</option>
+                                    <option value="zh">🇨🇳 Chinese</option>
+                                    <option value="ja">🇯🇵 Japanese</option>
+                                    <option value="ko">🇰🇷 Korean</option>
+                                    <option value="ar">🇸🇦 Arabic</option>
+                                    <option value="hi">🇮🇳 Hindi</option>
+                                    <option value="sw">🇹🇿 Swahili</option>
+                                </select>
+                            </div>
+                            
+                            <button id="translateBtn" class="btn-primary tool-btn">
+                                <i class="fas fa-language"></i> Translate Content
+                            </button>
+                            
+                            <div class="tool-options">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="preserveFormatting" checked>
+                                    <span class="checkmark"></span>
+                                    Preserve original formatting
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Simplification Card -->
+                    <div class="tool-card" data-tool="simplification">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="fas fa-pen-fancy"></i>
+                            </div>
+                            <div class="tool-info">
+                                <h3>Text Simplification</h3>
+                                <div class="tool-badge">
+                                    <i class="fas fa-book-reader"></i> Easy Reading
+                                </div>
+                            </div>
+                        </div>
+                        <p class="tool-description">Make complex educational text easier to understand while keeping key concepts</p>
+                        
+                        <div class="tool-controls">
+                            <div class="control-group">
+                                <label><i class="fas fa-sliders-h"></i> Simplification Level</label>
+                                <select id="simplifyLevel" class="form-select">
+                                    <option value="light">Light (Keep details)</option>
+                                    <option value="medium" selected>Medium (Balanced)</option>
+                                    <option value="heavy">Heavy (Most simple)</option>
+                                </select>
+                            </div>
+                            
+                            <button id="simplifyBtn" class="btn-primary tool-btn">
+                                <i class="fas fa-pen-fancy"></i> Simplify Text
+                            </button>
+                            
+                            <div class="tool-options">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="addExamples" checked>
+                                    <span class="checkmark"></span>
+                                    Add helpful examples
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="showOriginal">
+                                    <span class="checkmark"></span>
+                                    Show original text
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Output Section -->
+            <section class="output-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-download"></i> Accessible Output</h2>
+                    <div class="output-actions">
+                        <button id="copyOutput" class="btn-secondary" title="Copy to clipboard">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button id="downloadOutput" class="btn-secondary" title="Download as file">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <button id="clearOutput" class="btn-secondary" title="Clear output">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                        <div class="export-options">
+                            <select id="exportFormat" class="form-select-small">
+                                <option value="txt">TXT</option>
+                                <option value="pdf">PDF</option>
+                                <option value="doc">DOC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="output-container">
+                    <div id="outputPlaceholder" class="output-placeholder">
+                        <div class="placeholder-content">
+                            <div class="placeholder-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3>Your Accessible Content Awaits</h3>
+                            <p>Use the tools above to transform your educational materials into multiple accessible formats</p>
+                            <div class="placeholder-features">
+                                <div class="feature">
+                                    <i class="fas fa-volume-up"></i>
+                                    <span>Audio Version</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-language"></i>
+                                    <span>Multi-language</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-pen-fancy"></i>
+                                    <span>Simplified Text</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="outputContent" class="output-content hidden">
+                        <div class="output-header">
+                            <div class="output-title-section">
+                                <h3 id="outputTitle">Output Title</h3>
+                                <div class="output-meta">
+                                    <span id="outputType" class="output-type">Type</span>
+                                    <span id="outputTime" class="output-time"></span>
+                                </div>
+                            </div>
+                            <div class="output-stats">
+                                <div class="stat">
+                                    <span class="stat-value" id="outputWords">0</span>
+                                    <span class="stat-label">words</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value" id="outputChars">0</span>
+                                    <span class="stat-label">chars</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="outputText" class="output-text"></div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progressBar" class="progress-bar hidden">
+                    <div class="progress-info">
+                        <span id="progressText" class="progress-text">Processing your content...</span>
+                        <span id="progressPercent" class="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SDG Impact Section -->
+            <section class="impact-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> SDG 4 Impact</h2>
+                    <div class="impact-badge">
+                        <i class="fas fa-award"></i>
+                        Supporting Quality Education
+                    </div>
+                </div>
+                
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-eye-slash"></i>
+                        </div>
+                        <div class="impact-content">
+                            <h3>Visual Impairment Support</h3>
+                            <p>Text-to-speech and audio descriptions enable access for visually impaired learners, breaking down barriers to education.</p>
+                            <div class="impact-stats">
+                                <span class="stat">+285M</span>
+                                <span class="label">Visually impaired people worldwide</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="impact-content">
+                            <h3>Language Inclusion</h3>
+                            <p>15+ language support helps non-native speakers and multilingual students access educational content in their preferred language.</p>
+                            <div class="impact-stats">
+                                <span class="stat">15+</span>
+                                <span class="label">Languages supported</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="impact-content">
+                            <h3>Learning Diversity</h3>
+                            <p>Text simplification and multiple formats support different learning abilities and preferences, promoting inclusive education.</p>
+                            <div class="impact-stats">
+                                <span class="stat">100%</span>
+                                <span class="label">Free access for all</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-universal-access"></i>
+                        </div>
+                        <div class="impact-content">
+                            <h3>Universal Access</h3>
+                            <p>Document processing and voice recording make educational materials accessible across different formats and abilities.</p>
+                            <div class="impact-stats">
+                                <span class="stat">24/7</span>
+                                <span class="label">Available worldwide</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sdg-statement">
+                    <div class="sdg-logo">🎓</div>
+                    <div class="sdg-text">
+                        <h3>Supporting UN Sustainable Development Goal 4</h3>
+                        <p>Ensuring inclusive and equitable quality education and promoting lifelong learning opportunities for all. This tool directly addresses educational disparities and promotes accessibility for every learner.</p>
+                        <div class="sdg-targets">
+                            <div class="target">
+                                <strong>Target 4.5</strong>
+                                <span>Eliminate gender disparities and ensure equal access to all levels of education</span>
+                            </div>
+                            <div class="target">
+                                <strong>Target 4.a</strong>
+                                <span>Build and upgrade education facilities that are disability and gender sensitive</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🎓</div>
+                        <div class="logo-text">
+                            <h3>EduAccess Hub</h3>
+                            <p>Making Education Accessible for All</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">
+                        A comprehensive accessibility platform supporting UN SDG 4 - Quality Education. 
+                        Transforming educational content into multiple accessible formats for inclusive learning worldwide.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Text-to-Speech</a></li>
+                        <li><a href="#">Translation</a></li>
+                        <li><a href="#">Text Simplification</a></li>
+                        <li><a href="#">Document Processing</a></li>
+                        <li><a href="#">Voice Recording</a></li>
+                        <li><a href="#">Image Analysis</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Speech API</a></li>
+                        <li><a href="#">AI Integration</a></li>
+                        <li><a href="#">PWA Technology</a></li>
+                        <li><a href="#">Accessibility Standards</a></li>
+                        <li><a href="#">Open Source</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Developed By</h4>
+                    <div class="developer-info">
+                        <div class="developer">
+                            <strong>Your Name</strong>
+                            <span>Full Stack Developer</span>
+                            <a href="mailto:your.email@example.com">your.email@example.com</a>
+                        </div>
+                        <div class="project-info">
+                            <div class="info-item">
+                                <i class="fas fa-code"></i>
+                                <span>Built with Modern Web Technologies</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-heart"></i>
+                                <span>Made for SDG 4 Hackathon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 EduAccess Hub. All rights reserved. | Supporting UN Sustainable Development Goal 4</p>
+                    <div class="footer-meta">
+                        <span>Version 3.7.9</span>
+                        <span>•</span>
+                        <span>Accessibility First</span>
+                        <span>•</span>
+                        <span>Open Source</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- JavaScript Files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/speech.js"></script>
+    <script src="js/translation.js"></script>
+    <script src="js/simplification.js"></script>
+    <script src="js/file-processing.js"></script>
+    <script src="js/voice-recognition.js"></script>
+    <script src="js/image-analysis.js"></script>
+</body>
+</html>
