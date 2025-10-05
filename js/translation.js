@@ -88,6 +88,9 @@ window.translationModule = {
         app.showProgress(true, `Translating to ${language.name}...`);
 
         try {
+            // Add visual feedback
+            this.addTranslationAnimation();
+            
             // Try multiple translation approaches
             const translatedText = await this.tryTranslationMethods(text, targetLang, language);
             
@@ -104,6 +107,7 @@ window.translationModule = {
             this.showFallbackTranslation(text, targetLang, language);
         } finally {
             app.showProgress(false);
+            this.removeTranslationAnimation();
         }
     },
 
@@ -118,8 +122,16 @@ window.translationModule = {
             console.log('Browser translation failed:', error);
         }
 
-        // Method 2: Show demo translation with educational context
-        return this.createEducationalTranslation(text, targetLang, language);
+        // Method 2: Try free translation API
+        try {
+            const result = await this.freeApiTranslation(text, targetLang);
+            if (result) return result;
+        } catch (error) {
+            console.log('Free API translation failed:', error);
+        }
+
+        // Method 3: Use educational phrase mapping
+        return this.educationalPhraseTranslation(text, targetLang, language);
     },
 
     async browserTranslation(text, targetLang) {
@@ -137,7 +149,98 @@ window.translationModule = {
         });
     },
 
-    createEducationalTranslation(text, targetLang, language) {
+    async freeApiTranslation(text, targetLang) {
+        // Using LibreTranslate (free open-source)
+        try {
+            const response = await fetch('https://libretranslate.com/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    q: text.substring(0, 1000), // Limit for free API
+                    source: 'en',
+                    target: targetLang,
+                    format: 'text'
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.translatedText;
+            }
+        } catch (error) {
+            console.log('LibreTranslate failed:', error);
+        }
+
+        return null;
+    },
+
+    educationalPhraseTranslation(text, targetLang, language) {
+        // Map common educational phrases to target languages
+        const phraseMaps = {
+            'es': {
+                'education': 'educación',
+                'learning': 'aprendizaje',
+                'student': 'estudiante',
+                'teacher': 'profesor',
+                'school': 'escuela',
+                'knowledge': 'conocimiento',
+                'accessibility': 'accesibilidad',
+                'inclusive': 'inclusivo',
+                'quality education': 'educación de calidad',
+                'sustainable development': 'desarrollo sostenible',
+                'educational': 'educativo',
+                'teaching': 'enseñanza',
+                'classroom': 'aula',
+                'curriculum': 'plan de estudios',
+                'assessment': 'evaluación'
+            },
+            'fr': {
+                'education': 'éducation',
+                'learning': 'apprentissage',
+                'student': 'étudiant',
+                'teacher': 'enseignant',
+                'school': 'école',
+                'knowledge': 'connaissance',
+                'accessibility': 'accessibilité',
+                'inclusive': 'inclusif',
+                'quality education': 'éducation de qualité',
+                'sustainable development': 'développement durable',
+                'educational': 'éducatif',
+                'teaching': 'enseignement',
+                'classroom': 'salle de classe',
+                'curriculum': 'programme',
+                'assessment': 'évaluation'
+            },
+            'de': {
+                'education': 'Bildung',
+                'learning': 'Lernen',
+                'student': 'Student',
+                'teacher': 'Lehrer',
+                'school': 'Schule',
+                'knowledge': 'Wissen',
+                'accessibility': 'Zugänglichkeit',
+                'inclusive': 'inklusiv',
+                'quality education': 'hochwertige Bildung',
+                'sustainable development': 'nachhaltige Entwicklung'
+            }
+            // Add more languages as needed
+        };
+
+        const phraseMap = phraseMaps[targetLang];
+        if (!phraseMap) return this.createRealisticTranslation(text, targetLang, language);
+
+        let translated = text;
+        Object.keys(phraseMap).forEach(englishPhrase => {
+            const regex = new RegExp(englishPhrase, 'gi');
+            translated = translated.replace(regex, phraseMap[englishPhrase]);
+        });
+
+        return `${translated}\n\n---\n*Partial translation using educational terminology mapping*`;
+    },
+
+    createRealisticTranslation(text, targetLang, language) {
         const demoTranslations = {
             'es': `[TRADUCCIÓN AL ESPAÑOL - DEMOSTRACIÓN EDUCATIVA]
 
@@ -223,7 +326,7 @@ NOTE: This is a demo translation. In a full implementation, a professional trans
     },
 
     showFallbackTranslation(text, targetLang, language) {
-        const fallbackText = this.createEducationalTranslation(text, targetLang, language);
+        const fallbackText = this.createRealisticTranslation(text, targetLang, language);
         
         app.showOutput(
             fallbackText,
@@ -232,6 +335,32 @@ NOTE: This is a demo translation. In a full implementation, a professional trans
         );
         
         app.showNotification(`Demo translation shown - Professional service required for full implementation`, 'info');
+    },
+
+    addTranslationAnimation() {
+        const translateCard = document.querySelector('[data-tool="translation"]');
+        const translateBtn = document.getElementById('translateBtn');
+        
+        if (translateCard) {
+            translateCard.classList.add('processing');
+        }
+        if (translateBtn) {
+            translateBtn.classList.add('processing');
+            translateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Translating...';
+        }
+    },
+
+    removeTranslationAnimation() {
+        const translateCard = document.querySelector('[data-tool="translation"]');
+        const translateBtn = document.getElementById('translateBtn');
+        
+        if (translateCard) {
+            translateCard.classList.remove('processing');
+        }
+        if (translateBtn) {
+            translateBtn.classList.remove('processing');
+            translateBtn.innerHTML = '<i class="fas fa-language"></i> Translate Content';
+        }
     },
 
     // Utility methods
@@ -270,35 +399,14 @@ NOTE: This is a demo translation. In a full implementation, a professional trans
         });
 
         return detectedLang;
-    },
-
-    // Advanced translation features
-    async translateWithContext(text, targetLang, context = 'educational') {
-        // This would be implemented with a professional translation API
-        // that understands educational context and terminology
-        
-        const contextPrompts = {
-            'educational': 'Translate this educational content preserving academic terminology and learning context',
-            'scientific': 'Translate this scientific content with accurate technical terminology',
-            'literary': 'Translate this literary content preserving style and cultural references'
-        };
-        
-        const prompt = contextPrompts[context] || contextPrompts.educational;
-        
-        // In a real implementation, this would call an AI translation service
-        return this.createEducationalTranslation(text, targetLang, this.supportedLanguages[targetLang]);
-    },
-
-    getTranslationStats(text, translatedText) {
-        const originalWords = text.split(/\s+/).length;
-        const translatedWords = translatedText.split(/\s+/).length;
-        const ratio = (translatedWords / originalWords).toFixed(2);
-        
-        return {
-            originalWords,
-            translatedWords,
-            ratio,
-            complexity: ratio > 1.2 ? 'Higher' : ratio < 0.8 ? 'Lower' : 'Similar'
-        };
     }
 };
+
+// Initialize when loaded
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (window.translationModule && !window.translationModule.isInitialized) {
+            window.translationModule.init();
+        }
+    }, 100);
+});

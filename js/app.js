@@ -208,10 +208,10 @@ window.app = {
         const fileUpload = document.getElementById('fileUpload');
         const imageUpload = document.getElementById('imageUpload');
         if (fileUpload && window.fileProcessingModule) {
-            fileUpload.addEventListener('change', (e) => fileProcessingModule.handleFileUpload(e));
+            fileUpload.addEventListener('change', (e) => fileProcessingModule.handleDocumentUpload(e));
         }
         if (imageUpload && window.imageAnalysisModule) {
-            imageUpload.addEventListener('change', (e) => imageAnalysisModule.handleImageUpload(e));
+            imageUpload.addEventListener('change', (e) => imageAnalysisModule.analyzeImage(e.target.files[0]));
         }
     },
     
@@ -387,6 +387,9 @@ This sample text demonstrates how EduAccess Hub can transform educational conten
             if (placeholder) placeholder.classList.add('hidden');
             outputContent.classList.remove('hidden');
             
+            // Add beautiful animation
+            outputContent.style.animation = 'fadeInUp 0.5s ease';
+            
             // Scroll to output smoothly
             setTimeout(() => {
                 outputContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -481,6 +484,9 @@ This sample text demonstrates how EduAccess Hub can transform educational conten
                 progressBar.classList.remove('hidden');
                 progressFill.style.width = '0%';
                 
+                // Add beautiful animation
+                progressBar.style.animation = 'slideInUp 0.3s ease';
+                
                 // Store progress interval for cleanup
                 this.progressInterval = setInterval(() => {
                     const currentWidth = parseFloat(progressFill.style.width) || 0;
@@ -548,6 +554,9 @@ This sample text demonstrates how EduAccess Hub can transform educational conten
             `;
             
             container.appendChild(notification);
+            
+            // Add beautiful entrance animation
+            notification.style.animation = 'slideInRight 0.3s ease';
             
             // Auto remove after 5 seconds
             setTimeout(() => {

@@ -111,6 +111,9 @@ window.voiceRecognitionModule = {
             recordingInterface.classList.toggle('hidden');
             
             if (!recordingInterface.classList.contains('hidden')) {
+                // Add beautiful animation
+                recordingInterface.style.animation = 'fadeInUp 0.5s ease';
+                
                 // Scroll to recording interface
                 setTimeout(() => {
                     recordingInterface.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -121,14 +124,11 @@ window.voiceRecognitionModule = {
     
     startRecording() {
         if (!this.recognition) {
-            app.showNotification('Speech recognition not supported in your browser', 'error');
-            return;
+            this.initializeSpeechRecognition();
         }
-        
-        if (this.isRecording) {
-            return;
-        }
-        
+
+        if (this.isRecording) return;
+
         try {
             // Reset transcript
             this.finalTranscript = '';
@@ -141,11 +141,11 @@ window.voiceRecognitionModule = {
             this.updateRecordingUI();
             this.startRecordingTimer();
             
-            app.showNotification('Recording started... Speak clearly for best results', 'info');
+            app.showNotification('Recording started... Speak clearly about educational content', 'info');
             
         } catch (error) {
             console.error('Error starting recording:', error);
-            app.showNotification('Error starting recording', 'error');
+            this.handleRecordingError(error);
         }
     },
     
@@ -181,7 +181,8 @@ window.voiceRecognitionModule = {
             
             if (event.results[i].isFinal) {
                 // Final result - add to final transcript
-                this.finalTranscript += this.formatTranscript(transcript);
+                this.finalTranscript += this.formatEducationalTranscript(transcript);
+                this.saveToLocalStorage(this.finalTranscript); // Save progress
             } else {
                 // Interim result - show for real-time feedback
                 interimTranscript += transcript;
@@ -192,17 +193,23 @@ window.voiceRecognitionModule = {
         this.updateInputText(this.finalTranscript + interimTranscript);
     },
     
-    formatTranscript(transcript) {
-        // Basic formatting for educational content
+    formatEducationalTranscript(transcript) {
         let formatted = transcript.trim();
         
-        // Capitalize first letter of sentences
+        // Basic formatting for educational content
         if (formatted.length > 0) {
             formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+            
+            // Add period if missing and sentence is complete
+            if (!formatted.endsWith('.') && !formatted.endsWith('!') && !formatted.endsWith('?')) {
+                const lastChar = formatted.charAt(formatted.length - 1);
+                if (lastChar !== ',' && lastChar !== ';' && formatted.split(/\s+/).length > 3) {
+                    formatted += '.';
+                }
+            }
         }
         
-        // Add space if needed
-        if (!this.finalTranscript.endsWith(' ') && this.finalTranscript.length > 0) {
+        if (this.finalTranscript.length > 0 && !this.finalTranscript.endsWith(' ')) {
             formatted = ' ' + formatted;
         }
         
@@ -214,34 +221,71 @@ window.voiceRecognitionModule = {
         if (inputText) {
             inputText.value = text;
             app.updateStats();
+            this.updateRealTimeStats(text);
+        }
+    },
+    
+    updateRealTimeStats(transcript) {
+        const words = transcript.split(/\s+/).filter(word => word.length > 0);
+        const sentences = transcript.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        
+        // Update stats display
+        const statsElement = document.getElementById('recordingStats');
+        if (statsElement) {
+            statsElement.innerHTML = `
+                <span>Words: ${words.length}</span>
+                <span>Sentences: ${sentences.length}</span>
+                <span>Characters: ${transcript.length}</span>
+            `;
+        }
+    },
+    
+    saveToLocalStorage(transcript) {
+        // Auto-save transcription progress
+        try {
+            const transcriptionHistory = JSON.parse(localStorage.getItem('transcriptionHistory') || '[]');
+            transcriptionHistory.push({
+                text: transcript,
+                timestamp: new Date().toISOString(),
+                wordCount: transcript.split(/\s+/).length
+            });
+            
+            // Keep only last 10 transcriptions
+            if (transcriptionHistory.length > 10) {
+                transcriptionHistory.shift();
+            }
+            
+            localStorage.setItem('transcriptionHistory', JSON.stringify(transcriptionHistory));
+        } catch (error) {
+            console.warn('Could not save transcription to localStorage');
         }
     },
     
     onRecognitionError(event) {
         console.error('Speech recognition error:', event.error);
         
-        let errorMessage = 'Speech recognition error: ';
+        let userMessage = 'Speech recognition error: ';
         switch (event.error) {
             case 'no-speech':
-                errorMessage += 'No speech was detected. Please try speaking louder or closer to the microphone.';
+                userMessage += 'No speech was detected. Please try speaking louder or closer to the microphone.';
                 break;
             case 'audio-capture':
-                errorMessage += 'No microphone was found. Please check your microphone connection.';
+                userMessage += 'No microphone was found. Please check your microphone connection.';
                 break;
             case 'not-allowed':
-                errorMessage += 'Microphone permission was denied. Please allow microphone access in your browser settings.';
+                userMessage += 'Microphone permission was denied. Please allow microphone access in your browser settings.';
                 break;
             case 'network':
-                errorMessage += 'Network error occurred. Please check your internet connection.';
+                userMessage += 'Network error occurred. Please check your internet connection.';
                 break;
             case 'service-not-allowed':
-                errorMessage += 'Speech recognition service is not allowed.';
+                userMessage += 'Speech recognition service is not allowed.';
                 break;
             default:
-                errorMessage += event.error;
+                userMessage += event.error;
         }
         
-        app.showNotification(errorMessage, 'error');
+        app.showNotification(userMessage, 'error');
         this.resetRecording();
     },
     
@@ -286,6 +330,7 @@ window.voiceRecognitionModule = {
         }
         if (startBtn) {
             startBtn.disabled = true;
+            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recording...';
         }
         if (stopBtn) {
             stopBtn.disabled = false;
@@ -330,6 +375,7 @@ window.voiceRecognitionModule = {
         }
         if (startBtn) {
             startBtn.disabled = false;
+            startBtn.innerHTML = '<i class="fas fa-record-vinyl"></i> Start Recording';
         }
         if (stopBtn) {
             stopBtn.disabled = true;
@@ -385,34 +431,37 @@ window.voiceRecognitionModule = {
         const statusElement = document.getElementById('recordingStatus');
         if (statusElement) {
             statusElement.textContent = status;
+            
+            // Add color coding for status
+            statusElement.className = 'recording-status';
+            if (status.includes('Listening')) {
+                statusElement.classList.add('listening');
+            } else if (status.includes('Ready')) {
+                statusElement.classList.add('ready');
+            }
         }
     },
     
-    // Educational speech recognition features
-    setEducationalLanguage(lang = 'en-US') {
-        if (this.recognition) {
-            this.recognition.lang = lang;
-            console.log(`🎯 Speech recognition language set to: ${lang}`);
+    handleRecordingError(error) {
+        let userMessage = 'Recording error: ';
+        
+        switch(error.name || error) {
+            case 'NotAllowedError':
+            case 'PermissionDeniedError':
+                userMessage += 'Microphone access denied. Please allow microphone permissions in your browser settings.';
+                break;
+            case 'NotSupportedError':
+                userMessage += 'Speech recognition not supported in this browser. Try Chrome or Edge.';
+                break;
+            case 'NoSpeechError':
+                userMessage += 'No speech detected. Please check your microphone and try speaking louder.';
+                break;
+            default:
+                userMessage += 'Please check your microphone and try again.';
         }
-    },
-    
-    getRecordingStats() {
-        return {
-            duration: this.recordingStartTime ? Date.now() - this.recordingStartTime : 0,
-            wordCount: this.finalTranscript.split(/\s+/).length,
-            isRecording: this.isRecording,
-            language: this.recognition ? this.recognition.lang : 'unknown'
-        };
-    },
-    
-    // Method for educational content optimization
-    optimizeForEducationalContent() {
-        if (this.recognition) {
-            // These settings might improve recognition for educational terminology
-            this.recognition.continuous = true;
-            this.recognition.interimResults = true;
-            this.recognition.maxAlternatives = 3;
-        }
+        
+        app.showNotification(userMessage, 'error');
+        this.resetRecording();
     }
 };
 

@@ -716,6 +716,24 @@ body {
     animation: pulse 2s infinite;
 }
 
+/* Enhanced recording interface */
+.recording-stats {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background: var(--cream-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(139, 0, 0, 0.1);
+}
+
+.recording-stats span {
+    font-size: var(--font-size-sm);
+    color: var(--text-medium);
+    font-weight: 600;
+}
+
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: var(--shadow-md); }
     50% { transform: scale(1.02); box-shadow: var(--shadow-lg); }
@@ -1230,6 +1248,18 @@ body {
 
 .export-options {
     margin-left: var(--spacing-sm);
+}
+
+/* Processing options */
+.processing-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+    background: var(--cream-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(139, 0, 0, 0.1);
 }
 
 .output-container {
@@ -1876,6 +1906,35 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* Enhanced visual feedback */
+.upload-btn.processing {
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+    border-color: var(--accent-gold);
+}
+
+.tool-card.processing {
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 0 3px rgba(34, 139, 34, 0.1);
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast improvements */
+[data-theme="high-contrast"] .notification {
+    border: 3px solid #000000;
+}
+
+[data-theme="high-contrast"] .tool-card {
+    border: 3px solid #000000;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

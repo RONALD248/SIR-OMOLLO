@@ -137,6 +137,9 @@ window.speechModule = {
                 this.isPaused = false;
                 this.updatePlaybackButtons();
                 app.showNotification('Started speaking', 'info');
+                
+                // Add visual feedback
+                this.addSpeakingAnimation();
             };
             
             this.currentUtterance.onend = () => {
@@ -145,6 +148,9 @@ window.speechModule = {
                 this.updatePlaybackButtons();
                 app.showNotification('Finished speaking', 'success');
                 this.currentUtterance = null;
+                
+                // Remove visual feedback
+                this.removeSpeakingAnimation();
             };
             
             this.currentUtterance.onerror = (event) => {
@@ -154,6 +160,9 @@ window.speechModule = {
                 this.updatePlaybackButtons();
                 app.showNotification('Speech synthesis error', 'error');
                 this.currentUtterance = null;
+                
+                // Remove visual feedback
+                this.removeSpeakingAnimation();
             };
             
             this.currentUtterance.onpause = () => {
@@ -190,6 +199,9 @@ window.speechModule = {
             this.isPaused = false;
             this.updatePlaybackButtons();
             this.currentUtterance = null;
+            
+            // Remove visual feedback
+            this.removeSpeakingAnimation();
         }
     },
     
@@ -201,8 +213,10 @@ window.speechModule = {
         if (playBtn) {
             if (this.isPaused) {
                 playBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+                playBtn.classList.remove('processing');
             } else {
                 playBtn.innerHTML = '<i class="fas fa-play"></i> Play Audio';
+                playBtn.classList.remove('processing');
             }
         }
         
@@ -212,6 +226,41 @@ window.speechModule = {
         
         if (stopBtn) {
             stopBtn.disabled = !this.isPlaying && !this.isPaused;
+        }
+        
+        // Update tool card appearance
+        const speechCard = document.querySelector('[data-tool="speech"]');
+        if (speechCard) {
+            if (this.isPlaying) {
+                speechCard.classList.add('processing');
+            } else {
+                speechCard.classList.remove('processing');
+            }
+        }
+    },
+    
+    addSpeakingAnimation() {
+        const speechCard = document.querySelector('[data-tool="speech"]');
+        const playBtn = document.getElementById('playBtn');
+        
+        if (speechCard) {
+            speechCard.classList.add('processing');
+        }
+        if (playBtn) {
+            playBtn.classList.add('processing');
+            playBtn.innerHTML = '<i class="fas fa-volume-up"></i> Speaking...';
+        }
+    },
+    
+    removeSpeakingAnimation() {
+        const speechCard = document.querySelector('[data-tool="speech"]');
+        const playBtn = document.getElementById('playBtn');
+        
+        if (speechCard) {
+            speechCard.classList.remove('processing');
+        }
+        if (playBtn) {
+            playBtn.classList.remove('processing');
         }
     },
     
@@ -275,3 +324,12 @@ window.speechModule = {
         };
     }
 };
+
+// Initialize when loaded
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (window.speechModule && !window.speechModule.isInitialized) {
+            window.speechModule.init();
+        }
+    }, 100);
+});

@@ -77,6 +77,9 @@ window.simplificationModule = {
         app.showProgress(true, 'Simplifying text for better understanding...');
 
         try {
+            // Add visual feedback
+            this.addSimplificationAnimation();
+            
             let simplifiedText;
             
             // Try AI-powered simplification first
@@ -124,6 +127,7 @@ window.simplificationModule = {
             app.showNotification('Simplification failed', 'error');
         } finally {
             setTimeout(() => app.showProgress(false), 500);
+            this.removeSimplificationAnimation();
         }
     },
 
@@ -194,7 +198,8 @@ window.simplificationModule = {
         const educationalKeywords = [
             'education', 'learn', 'teach', 'student', 'teacher', 'school', 
             'knowledge', 'understand', 'important', 'key', 'concept', 'study',
-            'research', 'development', 'skill', 'ability', 'critical', 'analysis'
+            'research', 'development', 'skill', 'ability', 'critical', 'analysis',
+            'example', 'process', 'method', 'theory', 'practice', 'principle'
         ];
         
         educationalKeywords.forEach(keyword => {
@@ -290,7 +295,12 @@ window.simplificationModule = {
             'select': 'choose',
             'terminate': 'end',
             'transmit': 'send',
-            'undertake': 'do'
+            'undertake': 'do',
+            'methodology': 'method',
+            'pedagogy': 'teaching',
+            'curriculum': 'learning plan',
+            'assessment': 'evaluation',
+            'comprehension': 'understanding'
         };
 
         let simplified = text;
@@ -462,6 +472,32 @@ ${simplified}
 
     showSimplificationStats(stats) {
         console.log('Simplification Statistics:', stats);
+    },
+
+    addSimplificationAnimation() {
+        const simplifyCard = document.querySelector('[data-tool="simplification"]');
+        const simplifyBtn = document.getElementById('simplifyBtn');
+        
+        if (simplifyCard) {
+            simplifyCard.classList.add('processing');
+        }
+        if (simplifyBtn) {
+            simplifyBtn.classList.add('processing');
+            simplifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Simplifying...';
+        }
+    },
+
+    removeSimplificationAnimation() {
+        const simplifyCard = document.querySelector('[data-tool="simplification"]');
+        const simplifyBtn = document.getElementById('simplifyBtn');
+        
+        if (simplifyCard) {
+            simplifyCard.classList.remove('processing');
+        }
+        if (simplifyBtn) {
+            simplifyBtn.classList.remove('processing');
+            simplifyBtn.innerHTML = '<i class="fas fa-pen-fancy"></i> Simplify Text';
+        }
     },
 
     // Public method to check if module is ready
